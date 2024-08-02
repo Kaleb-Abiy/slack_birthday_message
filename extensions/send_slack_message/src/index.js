@@ -21,11 +21,15 @@ export default async ({ schedule }, { services, database, getSchema }) => {
 			//WE NEED MOST OF THE DATAS FROM DATABASE
 			const userList = await users.readByQuery({ fields: ['*'] })
 
+			if (userList.length == 0) return;
+
 			birthdayUsers = userList.filter(user => {
 				const userBirthday = new Date(user.birth_date);
 				const userBirthdayMonthDay = `${userBirthday.getMonth() + 1}-${userBirthday.getDate()}`;
 				return userBirthdayMonthDay === todayMonthDay;
 			});
+
+			if (birthdayUsers.length == 0) return;
 
 			birthdayUsers.map(user=> {
 				sendBirthdayMessage(user.full_name)
