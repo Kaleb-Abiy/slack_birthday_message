@@ -53,9 +53,7 @@ Then migrate user model schema to directus(database)
 ```
 docker compose cp data/schema.yml directus:/directus/ && \
 docker compose exec directus npx directus schema apply -y schema.yml
-```
-
-- After applying the migration user model will be 
+``` 
 
 - Then go to directus admin at [http://localhost:8055](http://localhost:8055) using default user and password (configurable in `.env` file before first startup):
 
@@ -66,16 +64,26 @@ password: d1r3ctu5
 - Create new users with birth_date
 ```
 
-- Then the directus extension will send birthday message to slack when registred user have birthday
-
 ---
 
 ### Setup slack App
 
-- First creat slack app use this [link](https://api.slack.com/quickstart#creating) and follow the webhook guidline to get webhook url
+- First create slack app use this [link](https://api.slack.com/quickstart#creating) and follow the webhook guidline to get webhook url
+
+- change directory to extension folder
+
+```
+cd extensions/send_slack_message
+```
+
+```
+npm install
+```
 
 - Add the webhook url to extensions `index.js` file `SLACK_WEBHOOK_URL` variable
 
 - Re build the extension with `npm run build`
 
-- Restart docker compose
+- Restart docker compose.
+
+- Then the directus extension will send birthday message to registered users on their birthday
